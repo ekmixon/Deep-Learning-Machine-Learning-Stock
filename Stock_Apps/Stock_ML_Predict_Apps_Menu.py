@@ -43,8 +43,7 @@ def end_date():
 
 # Input Symbols
 def input_symbol():
-    symbol = input("Enter symbol: ").upper()
-    return symbol
+    return input("Enter symbol: ").upper()
 
 # Logistic Regression
 def stock_logistic_regression():
@@ -52,7 +51,7 @@ def stock_logistic_regression():
     e = end_date()
     sym = input_symbol()
     df = yf.download(sym, s, e)
- 
+
     df = df.drop(['Date'], axis=1)
     X = df.loc[:, df.columns != 'Adj Close']
     y = np.where (df['Adj Close'].shift(-1) > df['Adj Close'],1,-1)
@@ -85,7 +84,7 @@ Command: """)
 
 # Linear Regression
 def stock_linear_regression():
-    s = start_date() 
+    s = start_date()
     e = end_date()
     sym = input_symbol()
     df = yf.download(sym, s, e)
@@ -95,25 +94,25 @@ def stock_linear_regression():
     lr = LinearRegression()
     lr.fit(X, Y)
     lr.predict(X)
-    
+
     plt.figure(figsize=(12,8))
     plt.scatter(df['Adj Close'], lr.predict(X))
     plt.plot(X, lr.predict(X), color = 'red')
     plt.xlabel('Prices')
     plt.ylabel('Predicted Prices')
     plt.grid()
-    plt.title(sym + ' Prices vs Predicted Prices')
+    plt.title(f'{sym} Prices vs Predicted Prices')
     plt.show()
-    print('Summary:')       
+    print('Summary:')
     print('Estimate intercept coefficient:', lr.intercept_)
     print('Number of coefficients:', len(lr.coef_))
     print('Accuracy Score:', lr.score(X, Y))
-    ans = ['1', '2'] 
+    ans = ['1', '2']
     user_input=input("""                  
 What would you like to do next? Enter option 1 or 2.  
 1. Menu
 2. Exit
-Command: """)   
+Command: """)
     while user_input not in ans:
         print("Error: Please enter a a valid option 1-2")
         user_input=input("Command: ")
@@ -136,12 +135,12 @@ def stock_svr():
     svr_lin  = SVR(kernel='linear', C=1e3)
     svr_poly = SVR(kernel='poly', C=1e3, degree=2)
     svr_rbf = SVR(kernel='rbf', C=1e3, gamma=0.1)
-    
+
     # Fit regression model
     svr_lin .fit(dates, prices)
     svr_poly.fit(dates, prices)
     svr_rbf.fit(dates, prices)
-    
+
     plt.figure(figsize=(12,8))
     plt.scatter(dates, prices, c='k', label='Data')
     plt.plot(dates, svr_lin.predict(dates), c='g', label='Linear model')

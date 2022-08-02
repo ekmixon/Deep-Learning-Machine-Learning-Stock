@@ -42,8 +42,7 @@ def end_date():
 
 # Input Symbols
 def input_symbol():
-    symbol = input("Enter symbol: ").upper()
-    return symbol
+    return input("Enter symbol: ").upper()
 
 # Logistic Regression
 def stock_logistic_regression():
@@ -71,7 +70,7 @@ def stock_logistic_regression():
 
 # Linear Regression
 def stock_linear_regression():
-    s = start_date() 
+    s = start_date()
     e = end_date()
     sym = input_symbol()
     df = yf.download(sym, s, e)
@@ -81,16 +80,16 @@ def stock_linear_regression():
     lr = LinearRegression()
     lr.fit(X, Y)
     lr.predict(X)
-    
+
     plt.figure(figsize=(12,8))
     plt.scatter(df['Adj Close'], lr.predict(X))
     plt.plot(X, lr.predict(X), color = 'red')
     plt.xlabel('Prices')
     plt.ylabel('Predicted Prices')
     plt.grid()
-    plt.title(sym + ' Prices vs Predicted Prices')
+    plt.title(f'{sym} Prices vs Predicted Prices')
     plt.show()
-    print('Summary:')       
+    print('Summary:')
     print('Estimate intercept coefficient:', lr.intercept_)
     print('Number of coefficients:', len(lr.coef_))
     print('Accuracy Score:', lr.score(X, Y))
